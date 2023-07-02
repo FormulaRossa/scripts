@@ -4,5 +4,16 @@
       "source": "/",
       "destination": "/index.sh"
     }
+  ],
+  "headers": [
+    {
+      "source": "**/*.sh",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/plain"
+        }
+      ]
+    }
   ]
 }
