@@ -7,7 +7,7 @@
   ],
   "headers": [
     {
-      "source": "**/*.sh",
+      "source": "/(.*).sh",
       "headers": [
         {
           "key": "Content-Type",
