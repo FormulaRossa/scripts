@@ -20,14 +20,11 @@ success "Success! apt-get upgrade done."
 apt-get install -y git curl wget unzip python3-pip python3 >/dev/null
 success "Success! apt-get install done."
 
-if [ -f /etc/motd ]; then
-    warning "MOTD already set up."
-else
-    apt-get install -y figlet lolcat >/dev/null
-    figlet -w 150 "$(sed 's/.*/\u&/' </etc/hostname)" | /usr/games/lolcat -f >/etc/motd
-    chmod -x /etc/update-motd.d/* >/dev/null
-    success "Success! MOTD set up."
-fi
+apt-get install -y figlet lolcat >/dev/null
+figlet -w 150 "$(sed 's/.*/\u&/' </etc/hostname)" | /usr/games/lolcat -f >/etc/motd
+chmod -x /etc/update-motd.d/* >/dev/null
+success "Success! MOTD set up."
+
 
 if [ -x "$(command -v docker)" ]; then
     warning "Docker already installed."
@@ -41,7 +38,7 @@ if [ -x "$(command -v docker-compose)" ]; then
 else
     sudo curl -L "https://github.com/docker/compose/releases/download/v2.19.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose >/dev/null 2>&1
     chmod +x /usr/local/bin/docker-compose >/dev/null
-    warning "Success! Docker Compose installed."
+    success "Success! Docker Compose installed."
 fi
 
 success "Success! All done."
