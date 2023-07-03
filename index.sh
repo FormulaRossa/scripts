@@ -32,14 +32,14 @@ fi
 if [ -x "$(command -v docker)" ]; then
     warning "Docker already installed."
 else
-    curl -fsSL https://get.docker.com | sh >/dev/null
+    curl -fsSL https://get.docker.com | sh >/dev/null 2>&1
     success "Success! Docker installed."
 fi
 
 if [ -x "$(command -v docker-compose)" ]; then
     warning "Docker Compose already installed."
 else
-    sudo curl -L "https://github.com/docker/compose/releases/download/v2.19.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose >/dev/null
+    sudo curl -L "https://github.com/docker/compose/releases/download/v2.19.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose >/dev/null 2>&1
     chmod +x /usr/local/bin/docker-compose >/dev/null
     warning "Success! Docker Compose installed."
 fi
