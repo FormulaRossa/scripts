@@ -39,7 +39,7 @@ function upgrade_packages(){
 }
 
 function install_packages(){
- apt-get install -y git curl wget unzip python3-pip python3 >/dev/null
+ apt-get install -y git curl wget unzip python3-pip python3 screen >/dev/null
  success "Success! important packages installed."
 }
 
