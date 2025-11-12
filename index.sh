@@ -64,7 +64,7 @@ function install_compose() {
     if command -v docker-compose >/dev/null 2>&1; then
         current_version=$(docker-compose --version | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
         
-        if [ "$(printf '%s\n' "$target_version" "$current_version" | sort -V | head -n1)" = "$target_version" ] && [ "$target_version" != "$current_version" ]; then
+        if [ "$(printf '%s\n' "$current_version" "$target_version" | sort -V | head -n1)" = "$current_version" ] && [ "$current_version" != "$target_version" ]; then
             warning "Older Docker Compose version ($current_version) detected, updating to $target_version..."
         else
             warning "Docker Compose already installed and up to date (version $current_version)."
