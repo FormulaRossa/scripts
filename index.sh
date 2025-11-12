@@ -60,14 +60,31 @@ function install_docker() {
 }
 
 function install_compose() {
- if [ -x "$(command -v docker-compose)" ]; then
-     warning "Docker Compose already installed."
- else
-     sudo curl -L "https://github.com/docker/compose/releases/download/v2.19.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose >/dev/null 2>&1
-     chmod +x /usr/local/bin/docker-compose >/dev/null
-     success "Success! Docker Compose installed."
- fi
+    target_version="2.40.3"
+    if command -v docker-compose >/dev/null 2>&1; then
+        current_version=$(docker-compose --version | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
+        
+        if [ "$(printf '%s\n' "$target_version" "$current_version" | sort -V | head -n1)" = "$target_version" ] && [ "$target_version" != "$current_version" ]; then
+            warning "Older Docker Compose version ($current_version) detected, updating to $target_version..."
+        else
+            warning "Docker Compose already installed and up to date (version $current_version)."
+            return 0
+        fi
+    else
+        warning "Docker Compose not installed, installing version $target_version..."
+    fi
+
+    sudo curl -L "https://github.com/docker/compose/releases/download/v${target_version}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose >/dev/null 2>&1
+    sudo chmod +x /usr/local/bin/docker-compose >/dev/null
+
+    installed_version=$(docker-compose --version | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
+    if [ "$installed_version" = "$target_version" ]; then
+        success "Success! Docker Compose version $installed_version installed."
+    else
+        failure "Failed to install Docker Compose version $target_version."
+    fi
 }
+
 
 check_supported
 update_packages
